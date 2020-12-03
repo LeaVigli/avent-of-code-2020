@@ -9,14 +9,35 @@ const trajectory = (error, data) => {
 
     let map = new Map(data);
     let position = new Position();
+    // Part 1
     const slope = new Slope(3, 1);
 
     // Toboggan path
-    const encounteredTrees = map.toboggan(position, slope);
+    const et = map.toboggan(position, slope);
 
-    // resulting grid
-    console.log(map.toString());
-    console.log(encounteredTrees);
+    // results
+    console.log(et);
+
+    // Part 2
+    map.reset();
+
+    const slope1 = new Slope(1, 1);
+    const slope2 = new Slope(5, 1);
+    const slope3 = new Slope(7, 1);
+    const slope4 = new Slope(1, 2);
+
+    const et1 = map.toboggan(position, slope1);
+    map.reset();
+    const et2 = map.toboggan(position, slope2);
+    map.reset();
+    const et3 = map.toboggan(position, slope3);
+    map.reset();
+    const et4 = map.toboggan(position, slope4);
+    console.log(et1);
+    console.log(et2);
+    console.log(et3);
+    console.log(et4);
+    console.log('answer: ' + et * et1 * et2 * et3 * et4);
 }
 
 class Map {
@@ -27,15 +48,8 @@ class Map {
         this.treeMark = 'X';
         this.openMark = 'O';
         this.encounteredTrees = 0;
-        this.grid = [];
 
-        let rowMap = this.rawContent.split('\n');
-
-        rowMap.forEach(item => {
-            if (item !== '') {
-                this.grid.push(item.split(''));
-            }
-        })
+        this.initGrid();
 
         this.limits = {
             lx: this.grid[0].length,
@@ -68,6 +82,7 @@ class Map {
             }
         }
 
+        position.reset();
         return this.encounteredTrees;
     }
 
@@ -81,12 +96,27 @@ class Map {
         });
         return result;
     }
+
+    initGrid () {
+        this.grid = [];
+        let rowMap = this.rawContent.split('\n');
+
+        rowMap.forEach(item => {
+            if (item !== '') {
+                this.grid.push(item.split(''));
+            }
+        })
+    }
+
+    reset () {
+        this.encounteredTrees = 0;
+        this.initGrid();
+    }
 }
 
 class Position {
     constructor () {
-        this.x = 0;
-        this.y = 0;
+        this.init();
     }
 
     move (map, slope) {
@@ -99,6 +129,14 @@ class Position {
         return this.y === map.limits.ly - 1;
     }
 
+    init () {
+        this.x = 0;
+        this.y = 0;
+    }
+
+    reset() {
+        this.init();
+    }
 }
 
 class Slope {
