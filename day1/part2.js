@@ -1,7 +1,9 @@
-fs = require('fs');
+fa = require('../tools/file-access');
+
+const fileName = 'day1/expense-report.txt';
 const goal = 2020;
 
-fs.readFile('day1/expense-report.txt', 'utf8', function (err, data) {
+const report = (err, data) => {
     if (err) {
         return console.log(err);
     }
@@ -12,7 +14,7 @@ fs.readFile('day1/expense-report.txt', 'utf8', function (err, data) {
 
     dataList.sort((a, b) => a - b);
 
-    console.log(dataList);
+    // console.log(dataList);
 
     dataList.some((item, index) => {
         if (item !== 0) {
@@ -33,4 +35,6 @@ fs.readFile('day1/expense-report.txt', 'utf8', function (err, data) {
 
 
     });
-});
+};
+
+fa.readFile(fileName, report);
