@@ -6,7 +6,7 @@ fs.readFile('day1/expense-report.txt', 'utf8', function (err, data) {
         return console.log(err);
     }
 
-    let dataList = data.split("\r\n");
+    let dataList = data.split("\n");
 
     dataList = dataList.map(item => Number(item));
 
